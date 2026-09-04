@@ -1,0 +1,56 @@
+# ============================================================
+#  StoreAnnouncer - Configuración (integración con Tebex)
+#
+#  No necesitas tokens ni conexiones: en el panel de Tebex,
+#  dentro de cada paquete → "Commands" → añade:
+#
+#    #tienda anunciar {username} {packageName} {quantity} {price}
+#
+#  (El prefijo # ejecuta el comando aunque el jugador esté
+#   offline: se encola hasta su próximo ingreso)
+# ============================================================
+
+announcer:
+  # Cabeza del skin (8x8 píxeles reales) dibujada con bloques █
+  head:
+    enabled: true
+  # Sonido global al anunciar ("" para desactivar)
+  sound: "entity.player.levelup"
+  # Enlace de tu tienda (línea final clicable). "" para ocultar
+  store-link: "https://tienda.tuservidor.com"
+  # %player%
+  header: "<dark_gray>«</dark_gray> <bold><white>%player%</white></bold> <dark_gray>▶</dark_gray> <green><bold>ha comprado en nuestra tienda</bold></green>"
+  # %producto%, %cantidad%
+  product: "<dark_gray>•</dark_gray> <aqua><bold>%producto%</bold></aqua> <dark_gray>x%cantidad%</dark_gray>"
+  # %precio% (se oculta si es 0, o si dejas "")
+  price: "<dark_gray>•</dark_gray> <gold>$%precio%</gold>"
+  # Línea final (clicable). %link% = store-link
+  store-line: "<click:open_url:'%link%'><gradient:#00FFA3:#F5D90A><bold>➥ ¡Visita nuestra tienda!</bold></gradient></click>"
+
+ggwave:
+  auto-start: true
+  duration-seconds: 30
+  start-sound: "entity.ender_dragon.growl"
+  start-message: "<gradient:#FF5555:#FFAA00><bold>¡GG WAVE!</bold></gradient> <yellow>Escribe</yellow> <green><bold>gg</bold></green> <yellow>en el chat para recibir recompensas</yellow> <gray>(%tiempo%s)</gray>"
+  end-message: "<dark_gray>La</dark_gray> <gradient:#FF5555:#FFAA00><bold>GG Wave</bold></gradient> <dark_gray>ha terminado, ¡gracias por participar!</dark_gray>"
+  reward:
+    mode: EXACTO
+    commands:
+      - "give %player% diamond 1"
+    max-per-player: 3
+    cooldown-seconds: 5
+    first-time-bonus:
+      enabled: true
+      commands:
+        - "give %player% gold_nugget 8"
+    sound: "entity.experience_orb.pickup"
+    message: "<green>¡Has recibido una recompensa por tu</green> <bold>gg</bold><green>!</green> <dark_gray>(%hechas%/%max%)</dark_gray>"
+  chat-format: "{color}<bold>%name%</bold> <dark_gray>»</dark_gray> <white>%message%</white>"
+  colors:
+    - "#FF5555"
+    - "#FFAA00"
+    - "#FFFF55"
+    - "#55FF55"
+    - "#55FFFF"
+    - "#5555FF"
+    - "#FF55FF"
