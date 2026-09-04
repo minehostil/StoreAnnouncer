@@ -127,7 +127,7 @@ public final class SkinHeadRenderer {
 
     private String texturesValueOf(PlayerProfile profile) {
         for (ProfileProperty property : profile.getProperties()) {
-            if (ProfileProperty.TEXTURES.equals(property.getName())) {
+            if ("textures".equals(property.getName())) {
                 return property.getValue();
             }
         }
