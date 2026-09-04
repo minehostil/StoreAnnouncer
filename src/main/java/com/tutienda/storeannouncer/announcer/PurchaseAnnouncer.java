@@ -9,6 +9,7 @@ import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.UUID;
@@ -59,25 +60,41 @@ public final class PurchaseAnnouncer {
     }
 
     private void broadcast(Purchase purchase, String name, List<Component> headRows) {
-        // Bloque 1: cabeza 8x8 encima
-        // Bloque 2: "Player ▶ Purchased:" + producto + enlace
+        // Líneas de texto que irán a la par de la cabeza
+        List<Component> textLines = new ArrayList<>();
+        textLines.add(settings.parse(settings.getHeader().replace("%player%", name)));
+        textLines.add(settings.parse(settings.getProduct()
+                .replace("%producto%", purchase.producto())
+                .replace("%cantidad%", String.valueOf(purchase.cantidad()))));
+        if (!settings.getPriceFormat().isEmpty() && purchase.precio() > 0) {
+            textLines.add(settings.parse(settings.getPriceFormat()
+                    .replace("%precio%", formatPrice(purchase.precio()))));
+        }
+        String link = settings.getStoreLink();
+        if (link != null && !link.isEmpty() && !settings.getStoreLine().isEmpty()) {
+            textLines.add(settings.parse(settings.getStoreLine().replace("%link%", link)));
+        }
+
         for (Player player : Bukkit.getOnlinePlayers()) {
-            if (headRows != null) {
-                for (Component row : headRows) {
-                    player.sendMessage(row);
+            if (headRows == null) {
+                // Sin cabeza: solo las líneas de texto, una debajo de otra
+                for (Component line : textLines) {
+                    player.sendMessage(line);
                 }
-            }
-            player.sendMessage(settings.parse(settings.getHeader().replace("%player%", name)));
-            player.sendMessage(settings.parse(settings.getProduct()
-                    .replace("%producto%", purchase.producto())
-                    .replace("%cantidad%", String.valueOf(purchase.cantidad()))));
-            if (!settings.getPriceFormat().isEmpty() && purchase.precio() > 0) {
-                player.sendMessage(settings.parse(settings.getPriceFormat()
-                        .replace("%precio%", formatPrice(purchase.precio()))));
-            }
-            String link = settings.getStoreLink();
-            if (link != null && !link.isEmpty() && !settings.getStoreLine().isEmpty()) {
-                player.sendMessage(settings.parse(settings.getStoreLine().replace("%link%", link)));
+            } else {
+                // Centra el texto verticalmente respecto a la cabeza
+                int start = Math.max(0, (headRows.size() - textLines.size()) / 2);
+                for (int i = 0; i < headRows.size(); i++) {
+                    int textIndex = i - start;
+                    if (textIndex >= 0 && textIndex < textLines.size()) {
+                        player.sendMessage(Component.empty()
+                                .append(headRows.get(i))
+                                .append(Component.text("   "))
+                                .append(textLines.get(textIndex)));
+                    } else {
+                        player.sendMessage(headRows.get(i));
+                    }
+                }
             }
         }
 
