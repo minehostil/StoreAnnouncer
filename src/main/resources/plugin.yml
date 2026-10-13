@@ -3,7 +3,7 @@ version: 1.0.0
 main: org.minehostil.storeannouncer.StoreAnnouncerPlugin
 api-version: '1.21'
 description: Announces Tebex store purchases (with skin head in chat) and triggers GG Waves with rewards.
-author: TuNombre
+author: MineHostil
 
 commands:
   store:
