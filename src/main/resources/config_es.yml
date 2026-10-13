@@ -1,0 +1,142 @@
+# ============================================================
+#  StoreAnnouncer - Configuración
+#  Todos los textos usan formato MiniMessage:
+#  https://docs.advntr.dev/minimessage/format.html
+# ============================================================
+
+# ------------------------------------------------------------
+# INTEGRACIÓN CON TEBEX
+# ------------------------------------------------------------
+# En el panel de Tebex ve a:  Packages -> tu paquete -> Commands
+# y añade este comando:
+#
+#    #store advertise {username} {packageName} {quantity} {price}
+#
+#  - El prefijo #  -> se ejecuta aunque el jugador esté offline
+#                     (se encola hasta su próximo ingreso al servidor)
+#  - Sin el #      -> solo se ejecuta si el jugador está online ahora mismo
+#
+# Placeholders de Tebex disponibles:
+#   {username}     -> nombre del comprador
+#   {packageName}  -> nombre del paquete comprado
+#   {quantity}     -> cantidad comprada
+#   {price}        -> precio pagado
+#
+# También puedes anunciar manualmente desde el juego o consola:
+#   /store advertise <jugador> <producto...> [cantidad] [precio]
+#   /store reload          -> recarga esta configuración
+#   /store ggwave [seg]    -> inicia una GG Wave manual
+#   /store ggwave stop     -> detiene la GG Wave activa
+# ------------------------------------------------------------
+
+announcer:
+  # Cabeza del skin (8x8 píxeles reales) dibujada con bloques █
+  # y el texto a la par (al lado derecho, centrado verticalmente)
+  head:
+    enabled: true
+
+  # Sonido global al anunciar una compra ("" para desactivar)
+  # Ejemplos: entity.player.levelup, block.note_block.pling, ui.toast.challenge_complete
+  sound: "entity.player.levelup"
+
+  # Enlace de tu tienda Tebex (línea final clicable). Déjalo en "" para ocultar la línea
+  store-link: "https://tienda.tuservidor.com"
+
+  # ── TEXTOS DEL ANUNCIO (aparecen al lado de la cabeza) ──
+  # Placeholder: %player% -> nombre del comprador
+  header: "<dark_gray>«</dark_gray> <bold><white>%player%</white></bold> <dark_gray>▶</dark_gray> <green><bold>ha comprado en nuestra tienda</bold></green>"
+
+  # Placeholders: %product% -> nombre del paquete | %quantity% -> cantidad comprada
+  product: "<dark_gray>•</dark_gray> <aqua><bold>%product%</bold></aqua> <dark_gray>x%quantity%</dark_gray>"
+
+  # Placeholder: %price% -> precio pagado
+  # (esta línea se oculta automáticamente si el precio es 0, o si dejas "")
+  price: "<dark_gray>•</dark_gray> <gold>$%price%</gold>"
+
+  # Placeholder: %link% -> se reemplaza por el valor de store-link de arriba
+  # La línea es clicable y abre la tienda en el navegador del jugador
+  store-line: "<click:open_url:'%link%'><gradient:#00FFA3:#F5D90A><bold>➥ ¡Visita nuestra tienda!</bold></gradient></click>"
+
+# ------------------------------------------------------------
+# GG WAVE
+# ------------------------------------------------------------
+ggwave:
+  # Activar la GG Wave automáticamente cada vez que se anuncia una compra
+  auto-start: true
+
+  # Duración de la wave en segundos
+  duration-seconds: 30
+
+  # Sonido al iniciar la wave ("" para desactivar)
+  start-sound: "entity.ender_dragon.growl"
+
+  # Mensaje de inicio de la wave
+  # Placeholder: %time% -> segundos que durará la wave
+  start-message: "<gradient:#FF5555:#FFAA00><bold>¡GG WAVE!</bold></gradient> <yellow>Escribe</yellow> <green><bold>gg</bold></green> <yellow>en el chat para recibir recompensas</yellow> <gray>(%time%s)</gray>"
+
+  # Mensaje al terminar la wave ("" para desactivar)
+  end-message: "<dark_gray>La</dark_gray> <gradient:#FF5555:#FFAA00><bold>GG Wave</bold></gradient> <dark_gray>ha terminado, ¡gracias por participar!</dark_gray>"
+
+  reward:
+    # EXACT / EXACTO     -> solo cuenta el mensaje "gg" (con o sin signos: gg!, ¿gg?, gg.)
+    # CONTAINS / CONTIENE -> cuenta cualquier mensaje que contenga "gg" (ej: "gg ez")
+    mode: EXACT
+
+    # Comandos de consola que se ejecutan al recompensar
+    # Placeholder: %player% -> nombre del jugador premiado
+    # Ejemplos con otros plugins:
+    #   - "eco give %player% 100"           (EssentialsX)
+    #   - "crate give %player% normal 1"    (CrazyCrates)
+    commands:
+      - "give %player% diamond 1"
+
+    # Máximo de recompensas que puede recibir un jugador en una misma wave
+    max-per-player: 3
+
+    # Segundos mínimos entre recompensa y recompensa (anti-spam)
+    cooldown-seconds: 5
+
+    first-time-bonus:
+      # Bonus extra SOLO la primera vez que el jugador escribe gg en la wave
+      enabled: true
+      # Placeholder: %player%
+      commands:
+        - "give %player% gold_nugget 8"
+
+    # Sonido al recibir una recompensa ("" para desactivar)
+    sound: "entity.experience_orb.pickup"
+
+    # Mensaje privado al recibir recompensa
+    # Placeholders: %done% -> recompensas recibidas | %max% -> máximo permitido
+    message: "<green>¡Has recibido una recompensa por tu</green> <bold>gg</bold><green>!</green> <dark_gray>(%done%/%max%)</dark_gray>"
+
+  # Formato de chat de los participantes mientras dura la wave
+  # (se activa cuando el jugador escribe su primer "gg")
+  # Placeholders:
+  #   {color}    -> color que le toca al jugador (rota con cada "gg" que escribe)
+  #   %name%     -> nombre del jugador
+  #   %message%  -> contenido del mensaje (¡OBLIGATORIO!)
+  chat-format: "{color}<bold>%name%</bold> <dark_gray>»</dark_gray> <white>%message%</white>"
+
+  # Paleta de colores hex que irá rotando con cada "gg" escrito
+  # (1er gg = color 1, 2do gg = color 2... y vuelve a empezar al acabar la lista)
+  colors:
+    - "#FF5555"
+    - "#FFAA00"
+    - "#FFFF55"
+    - "#55FF55"
+    - "#55FFFF"
+    - "#5555FF"
+    - "#FF55FF"
+
+# ------------------------------------------------------------
+# MENSAJES DEL PLUGIN (feedback de administración + hover de la cabeza)
+# ------------------------------------------------------------
+messages:
+  usage: "<red>Uso:</red> <gray>/store <reload | advertise | ggwave></gray>"
+  usage-advertise: "<red>Uso:</red> <gray>/store advertise <jugador> <producto...> [cantidad] [precio]</gray>"
+  reloaded: "<green>Configuración de StoreAnnouncer recargada.</green>"
+  announced: "<green>Anuncio enviado.</green>"
+  wave-stopped: "<green>GG Wave detenida.</green>"
+  # Texto al pasar el cursor sobre la cabeza del skin. %player%
+  head-hover: "<gradient:#FFD700:#FF8C00><bold>¡Compra de %player%!</bold></gradient>"
