@@ -251,5 +251,3 @@ plugins/StoreAnnouncer/
 - Skin heads are downloaded from external services (`mc-heads.net` and the Mojang API), so your server needs outbound internet access. If the download fails, a fallback head is shown.
 - Rewards are executed as console commands, so they work with any economy or crate plugin.
 
-## 📣 Important:
-**This plugin was created using AI, but I've conducted extensive testing to ensure that it is 100% functional, both in terms of its features and its performance. You can also view the plugin's code in the GitHub repository.**
