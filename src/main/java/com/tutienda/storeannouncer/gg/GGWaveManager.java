@@ -36,7 +36,7 @@ public final class GGWaveManager {
             endMillis = now + seconds * 1000L;
             if (!settings.getWaveStartMessage().isEmpty()) {
                 Bukkit.broadcast(settings.parse(settings.getWaveStartMessage()
-                        .replace("%tiempo%", String.valueOf(seconds))));
+                        .replace("%time%", String.valueOf(seconds))));
             }
             SoundUtil.playAll(Bukkit.getOnlinePlayers(), settings.getWaveStartSound());
         }
