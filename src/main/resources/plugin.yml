@@ -10,8 +10,6 @@ commands:
     description: StoreAnnouncer admin commands
     usage: /<command> <reload|advertise|ggwave>
     permission: storeannouncer.admin
-    # Alias opcional para compatibilidad con comandos antiguos (/tienda ...)
-    aliases: [tienda]
 
 permissions:
   storeannouncer.admin:
