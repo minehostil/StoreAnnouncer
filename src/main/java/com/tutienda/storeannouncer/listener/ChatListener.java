@@ -87,7 +87,7 @@ public final class ChatListener implements Listener {
         }
         SoundUtil.play(player, settings.getRewardSound());
         player.sendMessage(settings.parse(settings.getRewardMessage()
-                .replace("%hechas%", String.valueOf(done))
+                .replace("%done%", String.valueOf(done))
                 .replace("%max%", String.valueOf(max))));
     }
 
