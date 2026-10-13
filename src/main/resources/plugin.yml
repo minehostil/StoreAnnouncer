@@ -1,17 +1,19 @@
 name: StoreAnnouncer
 version: 1.0.0
-main: com.tutienda.storeannouncer.StoreAnnouncerPlugin
+main: org.minehostil.storeannouncer.StoreAnnouncerPlugin
 api-version: '1.21'
-description: Anuncia compras de la tienda Tebex (con cabeza del skin en el chat) y activa GG Waves con recompensas.
+description: Announces Tebex store purchases (with skin head in chat) and triggers GG Waves with rewards.
 author: TuNombre
 
 commands:
-  tienda:
-    description: Comandos de administración de StoreAnnouncer
-    usage: /<command> <reload|anunciar|ggwave>
+  store:
+    description: StoreAnnouncer admin commands
+    usage: /<command> <reload|advertise|ggwave>
     permission: storeannouncer.admin
+    # Alias opcional para compatibilidad con comandos antiguos (/tienda ...)
+    aliases: [tienda]
 
 permissions:
   storeannouncer.admin:
-    description: Acceso a /tienda
+    description: Access to /store
     default: op
