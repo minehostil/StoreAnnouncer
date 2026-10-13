@@ -64,11 +64,11 @@ public final class PurchaseAnnouncer {
         List<Component> textLines = new ArrayList<>();
         textLines.add(settings.parse(settings.getHeader().replace("%player%", name)));
         textLines.add(settings.parse(settings.getProduct()
-                .replace("%product%", purchase.producto())
-                .replace("%quantity%", String.valueOf(purchase.cantidad()))));
-        if (!settings.getPriceFormat().isEmpty() && purchase.precio() > 0) {
+                .replace("%product%", purchase.product())
+                .replace("%quantity%", String.valueOf(purchase.quantity()))));
+        if (!settings.getPriceFormat().isEmpty() && purchase.price() > 0) {
             textLines.add(settings.parse(settings.getPriceFormat()
-                    .replace("%price%", formatPrice(purchase.precio()))));
+                    .replace("%price%", formatPrice(purchase.price()))));
         }
         String link = settings.getStoreLink();
         if (link != null && !link.isEmpty() && !settings.getStoreLine().isEmpty()) {
@@ -98,8 +98,8 @@ public final class PurchaseAnnouncer {
             }
         }
 
-        plugin.getLogger().info("Purchase announced: " + name + " -> " + purchase.producto()
-                + " x" + purchase.cantidad() + " ($" + formatPrice(purchase.precio()) + ")");
+        plugin.getLogger().info("Purchase announced: " + name + " -> " + purchase.product()
+                + " x" + purchase.quantity() + " ($" + formatPrice(purchase.price()) + ")");
 
         SoundUtil.playAll(Bukkit.getOnlinePlayers(), settings.getAnnounceSound());
 
