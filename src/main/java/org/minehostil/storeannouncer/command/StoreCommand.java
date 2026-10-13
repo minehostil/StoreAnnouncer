@@ -49,24 +49,24 @@ public final class StoreCommand implements CommandExecutor, TabCompleter {
                 }
                 String player = args[1];
 
-                // Detecta [cantidad] [precio] numéricos al final
-                // (compatible con: store advertise {username} {packageName} {quantity} {price})
+                // Detects [quantity] [price] numeric values at the end
+                // (compatible with: store advertise {username} {packageName} {quantity} {price})
                 int end = args.length;
-                Double precio = null;
-                Integer cantidad = null;
+                Double price = null;
+                Integer quantity = null;
                 if (isNumber(args[end - 1])) {
-                    precio = Double.parseDouble(args[end - 1]);
+                    price = Double.parseDouble(args[end - 1]);
                     end--;
                 }
                 if (end - 1 >= 3 && isNumber(args[end - 1])) {
-                    cantidad = Integer.parseInt(args[end - 1]);
+                    quantity = Integer.parseInt(args[end - 1]);
                     end--;
                 }
-                String producto = String.join(" ", Arrays.copyOfRange(args, 2, end));
+                String product = String.join(" ", Arrays.copyOfRange(args, 2, end));
 
-                announcer.announce(new Purchase(player, null, producto,
-                        cantidad != null ? cantidad : 1,
-                        precio != null ? precio : 0.0D));
+                announcer.announce(new Purchase(player, null, product,
+                        quantity != null ? quantity : 1,
+                        price != null ? price : 0.0D));
                 sender.sendMessage(settings.parse(settings.getMsgAnnounced()));
             }
             case "ggwave" -> {
